@@ -3,6 +3,18 @@ $mig-black: #000 !default;
 $mig-red: #d00 !default;
 $mig-gold: #ffce00 !default;
 
+$mig-duration: 5s !default;
+$mig-padding: 4px 10px !default;
+
+$mig-schwarz-string0: 'Hosted' !default;
+$mig-schwarz-string1: 'Made' !default;
+$mig-rot-string: '100% in' !default;
+$mig-gold-string: 'Germany' !default;
+
+$mig-l0: str-length($mig-schwarz-string0);
+$mig-l1: str-length($mig-schwarz-string1);
+
+
 .siegel {
   color: $mig-white;
   display: flex;
@@ -10,7 +22,7 @@ $mig-gold: #ffce00 !default;
   align-items: flex-start;
   & > div {
     display: inline-block;
-    padding: 4px 10px;
+    padding: $mig-padding;
     text-transform: uppercase;
     font-family: Sans-Serif;
   }
@@ -18,35 +30,41 @@ $mig-gold: #ffce00 !default;
 .schwarz {
   background-color: $mig-black;
   &:after {
-    content: 'Hosted';
-    animation: changePredicate 5s linear infinite alternate;
+    content: $mig-schwarz-string0;
+    animation: changePredicate $mig-duration linear infinite alternate;
   }
 }
 .rot {
   background-color: $mig-red;
   &:after {
-    content: '100% in';
+    content: $mig-rot-string;
   }
 }
 .gold {
   background-color: $mig-gold;
   &:after {
-    content: 'Germany';
+    content: $mig-gold-string;
   }
 }
 
 @keyframes changePredicate {
-  0% { content: "Hosted"; }
-  44% { content: "Hosted"; }
-  45% { content: "Hoste"; }
-  46% { content: "Host"; }
-  47% { content: "Hos"; }
-  48% { content: "Ho"; }
-  49% { content: "H"; color: $mig-white; }
-  50% { content: "M"; color: $mig-black; }
-  51% { content: "M"; color: $mig-white; }
-  52% { content: "Ma"; }
-  53% { content: "Mad"; }
-  54% { content: "Made"; }
-  100% { content: "Made"; }
+  0% { content: $mig-schwarz-string0; }
+  
+  @for $i from 0 through $mig-l0 - 2 {
+    #{($i + 2 + 48 - $mig-l0) * 1%} {
+      content: str-slice($mig-schwarz-string0, 0, $mig-l0 - $i);
+    } 
+  }
+  
+  49% { content: str-slice($mig-schwarz-string0, 0, 1); color: $mig-white; }
+  50% { content: str-slice($mig-schwarz-string1, 0, 1); color: $mig-black; }
+  51% { content: str-slice($mig-schwarz-string1, 0, 1); color: $mig-white; }
+  
+  @for $i from 2 through $mig-l1 {
+    #{($i + 50) * 1%} {
+      content: str-slice($mig-schwarz-string1, 0, $i);
+    } 
+  }
+  
+  100% { content: $mig-schwarz-string1; }
 }

@@ -3,6 +3,7 @@ Colors taken from [flag of Germany](https://upload.wikimedia.org/wikipedia/commo
 
 ![hosted/made in Germany](mig.gif)
 
+See it live at https://maxwellium.github.io/made-in-germany/
 
 ---
 
